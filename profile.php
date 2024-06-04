@@ -17,7 +17,7 @@ include 'includes/header.php';
         </div>
         <div class="profile-actions">
             <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
-            <button class="btn-password" onclick="location.href='/linkup/templates/account/change_password.php'">Change Password</button>
+            <button class="btn-password" id="changePasswordBtn">Change Password</button>
             <button class="btn-delete" onclick="location.href='/linkup/templates/account/delete_profile.php'">Delete Profile</button>
         </div>
     </div>
@@ -42,32 +42,27 @@ include 'includes/header.php';
     </div>
 </div>
 
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Change Password</h2>
+        <form>
+            <div class="form-group">
+                <label for="current-password">Current Password:</label>
+                <input type="password" id="current-password" name="current-password" required>
+            </div>
+            <div class="form-group">
+                <label for="new-password">New Password:</label>
+                <input type="password" id="new-password" name="new-password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm New Password:</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit" class="btn-save">Save</button>
+        </form>
+    </div>
+</div>
+
 <?php include 'includes/footer.php'; ?>
-
-<script>
-    // Get the modal
-    var modal = document.getElementById("editProfileModal");
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("editProfileBtn");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-</script>
