@@ -1,3 +1,4 @@
+</body>
 <footer>
     <div class="footer-container">
         <p>&copy; 2024 LinkUp. All rights reserved.</p>

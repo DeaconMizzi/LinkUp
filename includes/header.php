@@ -26,10 +26,10 @@
                     <a href="profile.php">Profile</a>
                     <a href="login.php">Sign In</a>
                     <a href="register.php">Sign Up</a>
-                    <a href="logout.php">Logout</a>
+                    <a href="index.php">Logout</a>
                 </div>
             </li>
         </ul>
     </nav>
 </header>
-<main>
+<body>
