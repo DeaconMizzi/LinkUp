@@ -23,6 +23,7 @@
             <li class="profile-menu">
                 <img src="assets/images/profile.png" alt="Profile">
                 <div class="dropdown-content">
+                    <a href="profile.php">Profile</a>
                     <a href="login.php">Sign In</a>
                     <a href="register.php">Sign Up</a>
                     <a href="logout.php">Logout</a>

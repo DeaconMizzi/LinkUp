@@ -64,3 +64,208 @@ header {
 .profile-menu:hover .dropdown-content {
     display: block;
 }
+
+.profile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #C9E3FF;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.profile-name {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-details {
+    text-align: center;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info label {
+    font-weight: bold;
+}
+
+.profile-email, .profile-bio {
+    display: block;
+    background-color: #e9f1ff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.profile-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.btn-edit {
+    background-color: #007bff;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.btn-password {
+    background-color: #28a745;
+}
+
+.btn-password:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-post {
+    margin-bottom: 30px;
+}
+
+.create-post h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.btn-post {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-post:hover {
+    background-color: #0056b3;
+}
+
+.post {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.post-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #e9f1ff;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.post-content ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.post-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.post-actions button img {
+    width: 30px;
+    height: 30px;
+}
