@@ -1,7 +1,6 @@
 <?php
 include 'includes/header.php';
 include 'includes/db.php';
-session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -11,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Fetch user details from the database
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT username, email, bio FROM users WHERE user_id = $user_id";
+$sql = "SELECT username, email, bio, profile_picture FROM users WHERE user_id = $user_id";
 $result = $conn->query($sql);
 $user = $result->fetch_assoc();
 ?>
@@ -19,7 +18,7 @@ $user = $result->fetch_assoc();
 <div class="profile-wrapper">
     <div class="profile-container">
         <div class="profile-header">
-            <img class="profile-img" src="/linkup/assets/images/profile.png" alt="Profile Picture">
+            <img class="profile-img" src="<?php echo $user['profile_picture'] ? htmlspecialchars($user['profile_picture']) : '/linkup/assets/images/profile.png'; ?>" alt="Profile Picture">
             <h2 class="profile-name"><?php echo htmlspecialchars($user['username']); ?></h2>
         </div>
         <div class="profile-details">
@@ -69,7 +68,7 @@ $user = $result->fetch_assoc();
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Edit Profile</h2>
-        <form method="post" action="actions/update_profile.php">
+        <form method="post" action="actions/update_profile.php" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="username">Change Username:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
@@ -77,6 +76,10 @@ $user = $result->fetch_assoc();
             <div class="form-group">
                 <label for="bio">Change Bio:</label>
                 <textarea id="bio" name="bio"><?php echo htmlspecialchars($user['bio']); ?></textarea>
+            </div>
+            <div class="form-group">
+                <label for="profile_picture">Change Profile Picture:</label>
+                <input type="file" id="profile_picture" name="profile_picture">
             </div>
             <button type="submit" class="btn-save">Save</button>
         </form>
