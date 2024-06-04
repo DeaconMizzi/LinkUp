@@ -15,14 +15,14 @@
     </div>
     <nav>
         <ul class="nav-links">
-            <li><a href="templates/pages/contact.php"><img src="assets/images/contact.png" alt="Contact"></a></li>
-            <li><a href="templates/pages/faq.php"><img src="assets/images/faq.png" alt="FAQ"></a></li>
+            <li><a href="contact.php"><img src="assets/images/contact.png" alt="Contact"></a></li>
+            <li><a href="faq.php"><img src="assets/images/faq.png" alt="FAQ"></a></li>
             <li class="profile-menu">
                 <img src="assets/images/profile.png" alt="Profile">
                 <div class="dropdown-content">
-                    <a href="templates/authentication/login.php">Sign In</a>
-                    <a href="templates/authentication/register.php">Sign Up</a>
-                    <a href="templates/authentication/logout.php">Logout</a>
+                    <a href="login.php">Sign In</a>
+                    <a href="register.php">Sign Up</a>
+                    <a href="logout.php">Logout</a>
                 </div>
             </li>
         </ul>
