@@ -25,6 +25,8 @@
                     <a href="profile.php">Profile</a>
                     <a href="login.php">Sign In</a>
                     <a href="register.php">Sign Up</a>
+                    <a href="user_management.php">User Management</a>
+                    <a href="role_management.php">Role Management</a>
                     <a href="index.php">Logout</a>
                 </div>
             </li>
