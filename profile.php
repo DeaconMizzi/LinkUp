@@ -1,20 +1,35 @@
 <?php
 include 'includes/header.php';
+include 'includes/db.php';
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch user details from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT username, email, bio FROM users WHERE user_id = $user_id";
+$result = $conn->query($sql);
+$user = $result->fetch_assoc();
 ?>
+
 <div class="profile-wrapper">
     <div class="profile-container">
         <div class="profile-header">
             <img class="profile-img" src="/linkup/assets/images/profile.png" alt="Profile Picture">
-            <h2 class="profile-name">YourUsername01</h2>
+            <h2 class="profile-name"><?php echo htmlspecialchars($user['username']); ?></h2>
         </div>
         <div class="profile-details">
             <div class="profile-info">
                 <label for="email"><b>Email:</b></label>
-                <p class="profile-email">YourUsername01@gmail.com</p>
+                <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p>
             </div>
             <div class="profile-info">
                 <label for="bio"><b>Bio:</b></label>
-                <p class="profile-bio">Making Prototypes and Testing them!</p>
+                <p class="profile-bio"><?php echo htmlspecialchars($user['bio']); ?></p>
             </div>
             <div class="profile-actions">
                 <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
@@ -54,14 +69,14 @@ include 'includes/header.php';
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Edit Profile</h2>
-        <form method="post" action="update_profile.php">
+        <form method="post" action="actions/update_profile.php">
             <div class="form-group">
                 <label for="username">Change Username:</label>
-                <input type="text" id="username" name="username">
+                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
             </div>
             <div class="form-group">
                 <label for="bio">Change Bio:</label>
-                <textarea id="bio" name="bio"></textarea>
+                <textarea id="bio" name="bio"><?php echo htmlspecialchars($user['bio']); ?></textarea>
             </div>
             <button type="submit" class="btn-save">Save</button>
         </form>
