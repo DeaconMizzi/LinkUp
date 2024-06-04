@@ -19,29 +19,46 @@ include 'includes/header.php';
             </form>
         </div>
 
-        <div class="post-container">
-            <div class="post">
-                <div class="post-header">
-                    <img class="post-avatar" src="/linkup/assets/images/profile.png" alt="Profile Picture">
-                    <h3 class="post-title">Exploring the Best Hiking Trails in Your Area</h3>
-                </div>
-                <div class="post-tag">Travel</div>
-                <div class="post-content">
-                    <p>I recently discovered some amazing hiking trails near my hometown and wanted to share my experiences with you all. Here are my top picks:</p>
-                    <ul>
-                        <li>Mount Sunshine Trail: A moderate 5-mile trail with breathtaking views of the valley. Best visited during the early morning for a stunning sunrise.</li>
-                        <li>Riverbend Path: An easy 3-mile walk along the river, perfect for beginners and families. Don’t forget to pack a picnic!</li>
-                    </ul>
-                </div>
-                <div class="post-actions">
-                    <button class="btn-star"><img src="/linkup/assets/images/star.png" alt="Star"></button>
-                    <button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button>
-                    <button class="btn-share" onclick="sharePost('<?php echo 'https://yourdomain.com/post/' . $post_id; ?>')"><img src="/linkup/assets/images/share.png" alt="Share"></button>
-                </div>
-            </div>
-        </div>
+        <!-- Fetch posts from database and loop through them -->
+        <?php
+        // Example connection and query to fetch posts
+        $conn = new mysqli("localhost", "username", "password", "database");
+        $sql = "SELECT post_id, title, content, tag FROM posts";
+        $result = $conn->query($sql);
 
-        <!-- Repeat the post-container div for more posts -->
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $post_id = $row["post_id"];
+                $title = $row["title"];
+                $content = $row["content"];
+                $tag = $row["tag"];
+                ?>
+
+                <div class="post-container">
+                    <div class="post">
+                        <div class="post-header">
+                            <img class="post-avatar" src="/linkup/assets/images/profile.png" alt="Profile Picture">
+                            <a href="post.php?id=<?php echo $post_id; ?>"><h3 class="post-title"><?php echo $title; ?></h3></a>
+                        </div>
+                        <div class="post-tag"><?php echo $tag; ?></div>
+                        <div class="post-content">
+                            <p><?php echo substr($content, 0, 100); ?>...</p> <!-- Display a preview of the content -->
+                        </div>
+                        <div class="post-actions">
+                            <button class="btn-star"><img src="/linkup/assets/images/star.png" alt="Star"></button>
+                            <button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button>
+                            <button class="btn-share" onclick="sharePost('https://yourdomain.com/post/<?php echo $post_id; ?>')"><img src="/linkup/assets/images/share.png" alt="Share"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+            }
+        } else {
+            echo "<p>No posts available.</p>";
+        }
+        $conn->close();
+        ?>
     </div>
 </div>
 

@@ -16,8 +16,6 @@ body {
     flex: 1;
 }
 
-
-
 /* Header styles */
 header {
     display: flex;
@@ -200,10 +198,18 @@ header {
     height: 40px;
 }
 
+/* Profile Wrapper */
+.profile-wrapper {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px; /* Adjust as necessary */
+    margin: 0 auto;
+}
+
 /* Profile container styles */
 .profile-container {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 50px 20px; /* Added margin for spacing */
     padding: 20px;
     background-color: #fff;
     border: 2px solid #C9E3FF;
@@ -287,6 +293,47 @@ header {
 
 .btn-delete:hover {
     background-color: #c82333;
+}
+
+/* Followers and Following Container */
+.followers-following-container {
+    max-width: 300px;
+    margin: 50px 20px; /* Added margin for spacing */
+}
+
+.followers-section, .following-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+.followers-section h3, .following-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+}
+
+#followers-list, #following-list {
+    list-style: none;
+    padding: 0;
+}
+
+#followers-list li, #following-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#followers-list li img, #following-list li img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
 }
 
 /* Footer styles
@@ -508,6 +555,7 @@ header {
 .btn-save:hover {
     background-color: #0056b3;
 }
+
 /* User Management Page */
 .user-management-container {
     max-width: 900px;
@@ -577,6 +625,7 @@ header {
 .user-table .btn-delete:hover {
     background-color: #c82333;
 }
+
 /* Role Management Page */
 .role-management-container {
     max-width: 900px;
@@ -646,4 +695,3 @@ header {
 .role-table .btn-remove:hover {
     background-color: #c82333;
 }
-

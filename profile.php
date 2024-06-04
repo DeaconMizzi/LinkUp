@@ -1,24 +1,50 @@
 <?php
 include 'includes/header.php';
 ?>
-<div class="profile-container">
-    <div class="profile-header">
-        <img class="profile-img" src="/linkup/assets/images/profile.png" alt="Profile Picture">
-        <h2 class="profile-name">YourUsername01</h2>
+<div class="profile-wrapper">
+    <div class="profile-container">
+        <div class="profile-header">
+            <img class="profile-img" src="/linkup/assets/images/profile.png" alt="Profile Picture">
+            <h2 class="profile-name">YourUsername01</h2>
+        </div>
+        <div class="profile-details">
+            <div class="profile-info">
+                <label for="email"><b>Email:</b></label>
+                <p class="profile-email">YourUsername01@gmail.com</p>
+            </div>
+            <div class="profile-info">
+                <label for="bio"><b>Bio:</b></label>
+                <p class="profile-bio">Making Prototypes and Testing them!</p>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
+                <button class="btn-password" id="changePasswordBtn">Change Password</button>
+                <button class="btn-delete" onclick="location.href='/linkup/templates/account/delete_profile.php'">Delete Profile</button>
+            </div>
+        </div>
     </div>
-    <div class="profile-details">
-        <div class="profile-info">
-            <label for="email"><b>Email:</b></label>
-            <p class="profile-email">YourUsername01@gmail.com</p>
+
+    <div class="followers-following-container">
+        <!-- Followers Section -->
+        <div class="followers-section">
+            <h3>Followers</h3>
+            <ul id="followers-list">
+                <!-- Example followers, replace with dynamic content -->
+                <li><img src="/linkup/assets/images/profile.png" alt="Follower 1"> Follower 1</li>
+                <li><img src="/linkup/assets/images/profile.png" alt="Follower 2"> Follower 2</li>
+                <!-- Add more followers here -->
+            </ul>
         </div>
-        <div class="profile-info">
-            <label for="bio"><b>Bio:</b></label>
-            <p class="profile-bio">Making Prototypes and Testing them!</p>
-        </div>
-        <div class="profile-actions">
-            <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
-            <button class="btn-password" id="changePasswordBtn">Change Password</button>
-            <button class="btn-delete" onclick="location.href='/linkup/templates/account/delete_profile.php'">Delete Profile</button>
+
+        <!-- Following Section -->
+        <div class="following-section">
+            <h3>Following</h3>
+            <ul id="following-list">
+                <!-- Example following, replace with dynamic content -->
+                <li><img src="/linkup/assets/images/profile.png" alt="Following 1"> Following 1</li>
+                <li><img src="/linkup/assets/images/profile.png" alt="Following 2"> Following 2</li>
+                <!-- Add more following here -->
+            </ul>
         </div>
     </div>
 </div>
