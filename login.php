@@ -22,6 +22,19 @@ include 'includes/header.php';
     </div>
 </div>
 
+<!-- Modal for error message -->
+<?php if (isset($_SESSION['login_error'])): ?>
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p><?php echo $_SESSION['login_error']; ?></p>
+        </div>
+    </div>
+    <?php unset($_SESSION['login_error']); ?>
+<?php endif; ?>
+
 <?php
 include 'includes/footer.php';
 ?>
+
+

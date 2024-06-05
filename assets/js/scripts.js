@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // Get the modals
     var editProfileModal = document.getElementById("editProfileModal");
     var changePasswordModal = document.getElementById("changePasswordModal");
+    var errorModal = document.getElementById("errorModal");
 
     // Get the buttons that open the modals
     var editProfileBtn = document.getElementById("editProfileBtn");
@@ -38,5 +39,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (event.target == changePasswordModal) {
             changePasswordModal.style.display = "none";
         }
+        if (event.target == errorModal) {
+            errorModal.style.display = "none";
+        }
+    }
+
+    // Show the error modal if it exists
+    if (errorModal) {
+        errorModal.style.display = "block";
     }
 });

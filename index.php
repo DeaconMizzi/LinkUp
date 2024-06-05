@@ -2,7 +2,11 @@
 include 'includes/header.php';
 include 'includes/db.php';
 
+session_start();
+
 $user_id = $_SESSION['user_id'] ?? null;
+$user_role = $_SESSION['user_role'] ?? 'user';
+
 ?>
 
 <div class="outer-container">
@@ -90,6 +94,12 @@ $user_id = $_SESSION['user_id'] ?? null;
                 echo '</form>';
                 echo '<a href="post.php?id=' . $row["post_id"] . '"><button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button></a>';
                 echo '<button class="btn-share" onclick="sharePost(\'https://yourdomain.com/post/' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
+                if ($user_role == 'admin' || $user_role == 'mod') {
+                    echo '<form action="actions/delete_post.php" method="post">';
+                    echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
+                    echo '<button type="submit" class="btn-delete">Delete Post</button>';
+                    echo '</form>';
+                }
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
