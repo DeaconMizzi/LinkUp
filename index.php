@@ -48,12 +48,29 @@ $user_id = $_SESSION['user_id'] ?? null;
 
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                // Check if the user has a profile picture; if not, use the default
+                $profile_picture = $row['profile_picture'] ? htmlspecialchars($row['profile_picture']) : '/linkup/assets/images/profile.png';
+
+                // Count the number of likes for this post
+                $star_count_sql = "SELECT COUNT(*) AS star_count FROM stars WHERE post_id = " . $row['post_id'];
+                $star_count_result = $conn->query($star_count_sql);
+                $star_count_row = $star_count_result->fetch_assoc();
+                $star_count = $star_count_row['star_count'];
+
+                // Check if the user has already liked the post
+                $is_starred = false;
+                if ($user_id) {
+                    $star_check_sql = "SELECT * FROM stars WHERE user_id = $user_id AND post_id = " . $row['post_id'];
+                    $star_check_result = $conn->query($star_check_sql);
+                    $is_starred = $star_check_result->num_rows > 0;
+                }
+
                 echo '<div class="post-container">';
                 echo '<div class="post">';
                 echo '<div class="post-header">';
                 echo '<div class="post-avatar-container">';
                 echo '<a href="profile.php?id=' . $row['user_id'] . '">';
-                echo '<img class="post-avatar" src="' . htmlspecialchars($row['profile_picture']) . '" alt="Profile Picture">';
+                echo '<img class="post-avatar" src="' . $profile_picture . '" alt="Profile Picture">';
                 echo '</a>';
                 echo '<div class="post-username">' . htmlspecialchars($row["username"]) . '</div>';
                 echo '</div>';
@@ -64,7 +81,13 @@ $user_id = $_SESSION['user_id'] ?? null;
                 echo '</div>';
                 echo '<div class="post-content"><p>' . htmlspecialchars($row["content"]) . '</p></div>';
                 echo '<div class="post-actions">';
-                echo '<button class="btn-star"><img src="/linkup/assets/images/star.png" alt="Star"></button>';
+                echo '<form action="actions/add_star.php" method="post" class="star-form">';
+                echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
+                echo '<button type="submit" class="btn-star">';
+                echo '<img src="/linkup/assets/images/' . ($is_starred ? 'starred.png' : 'star.png') . '" alt="Star">';
+                echo '</button>';
+                echo '<span class="star-count">' . $star_count . '</span>';
+                echo '</form>';
                 echo '<a href="post.php?id=' . $row["post_id"] . '"><button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button></a>';
                 echo '<button class="btn-share" onclick="sharePost(\'https://yourdomain.com/post/' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
                 echo '</div>';

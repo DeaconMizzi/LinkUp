@@ -261,13 +261,15 @@ header {
 /* Profile container styles */
 .profile-container {
     max-width: 900px; /* Adjusted width for consistency */
-    margin: 50px 20px; /* Added margin for spacing */
+    min-width: 600px; /* Set a minimum width */
+    margin: 50px auto; /* Center the container and add margin for spacing */
     padding: 20px;
     background-color: #fff;
     border: 2px solid #C9E3FF;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .profile-header {
     text-align: center;
@@ -304,6 +306,9 @@ header {
     padding: 10px;
     border-radius: 5px;
     margin-top: 5px;
+    word-wrap: break-word; /* Ensure long words break and wrap within the container */
+    white-space: pre-wrap; /* Preserve whitespace and wrap the text */
+    overflow: hidden; /* Hide any overflow text */
 }
 
 .profile-actions {
@@ -769,36 +774,69 @@ header {
 
 .post-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
+    position: relative;
+}
+
+.post-avatar-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the username under the picture */
 }
 
 .post-avatar {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    margin-right: 10px;
-}
-
-.post-header-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.post-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
 }
 
 .post-username {
+    margin-top: 5px;
+    margin-right: 20px;
     font-size: 16px;
-    color: #777;
-    margin: 0;
-    text-align: right;
-    align-self: flex-end;
+    color: black;
+    text-align: center;
+    width: 100%; /* Ensure it takes full width of the container */
+}
+
+.post-details {
+    margin-left: 20px; /* Add space to the left */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Center the tag */
+}
+
+.post-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.post-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #e9f1ff;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+.btn-star {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.star-count {
+    margin-left: 9px;
+    font-size: 16px;
 }
 
 .comments-section h3, .add-comment-section h3 {
