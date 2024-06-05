@@ -3,15 +3,22 @@ session_start();
 include 'includes/db.php'; // Make sure to include database connection
 
 $userProfilePicture = 'assets/images/profile.png'; // Default profile picture
+$isAdmin = false;
 
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
-    $sql = "SELECT profile_picture FROM users WHERE user_id = $userId";
+    $sql = "SELECT username, profile_picture FROM users WHERE user_id = $userId";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $userProfilePicture = htmlspecialchars($row['profile_picture']);
+        if (!empty($row['profile_picture'])) {
+            $userProfilePicture = htmlspecialchars($row['profile_picture']);
+        }
+        // Check if the logged-in user is admin
+        if ($row['username'] == 'admin') {
+            $isAdmin = true;
+        }
     }
 }
 ?>
@@ -41,8 +48,10 @@ if (isset($_SESSION['user_id'])) {
                 <div class="dropdown-content">
                     <?php if(isset($_SESSION['user_id'])): ?>
                         <a href="profile.php">Profile</a>
-                        <a href="user_management.php">User Management</a>
-                        <a href="role_management.php">Role Management</a>
+                        <?php if($isAdmin): ?>
+                            <a href="user_management.php">User Management</a>
+                            <a href="role_management.php">Role Management</a>
+                        <?php endif; ?>
                         <a href="logout.php">Logout</a>
                     <?php else: ?>
                         <a href="login.php">Sign In</a>

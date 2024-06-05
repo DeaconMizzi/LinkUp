@@ -146,44 +146,59 @@ header {
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .post-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 40%;
+    margin-right: 100px;
+    margin-top: 10px;
 }
 
-.post-details {
+.post-header-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Ensure the items align to the start of the flex container */
+    justify-content: flex-start;
+    flex: 1;
 }
 
-.post-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+.post-username {
+    font-size: 16px;
+    color: black;
+    margin-top: 5px;
+    text-align: center;
+    width: 50px; /* Adjust to match the width of the avatar */
 }
+
 
 .post-tag {
-    font-size: 14px;
-    color: #007bff;
+    display: inline-block;
+    padding: 5px 10px;
     background-color: #e9f1ff;
     border-radius: 5px;
-    padding: 5px;
-    display: inline-block;
-    margin-top: 5px;
+    font-size: 14px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+.post-title a {
+    text-decoration: none;
+    color: inherit; /* Optional: Ensure it inherits the color */
 }
 
+.post-title a:hover {
+    text-decoration: underline; /* Optional: Add underline on hover if needed */
+}
 
 .post-content {
-    font-size: 18px; /* Increased font size */
+    font-size: 16px;
     color: #333;
-    margin-bottom: 20px;
+    margin-top: 20px; /* Add space before content */
+    padding-top: 10px; /* Optional: Add padding at the top */
+    border-top: 1px solid #C9E3FF; /* Add a line before content */
 }
+
 
 .post-content ul {
     list-style: disc;
@@ -202,8 +217,8 @@ header {
 }
 
 .post-actions button img {
-    width: 30px; /* Smaller icon size */
-    height: 30px; /* Smaller icon size */
+    width: 30px;
+    height: 30px;
 }
 
 /* Profile Wrapper */
@@ -704,6 +719,7 @@ header {
     background-color: #c82333;
 }
 
+/* Post detail styles */
 .post-detail-container {
     max-width: 1000px;
     margin: 20px auto;
