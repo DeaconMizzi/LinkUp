@@ -25,11 +25,11 @@ session_start();
             <li class="profile-menu">
                 <img src="assets/images/profile.png" alt="Profile">
                 <div class="dropdown-content">
-                    <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if(isset($_SESSION['user_id'])): ?>
                         <a href="profile.php">Profile</a>
-                        <a href="index.php">Logout</a>
                         <a href="user_management.php">User Management</a>
                         <a href="role_management.php">Role Management</a>
+                        <a href="logout.php">Logout</a>
                     <?php else: ?>
                         <a href="login.php">Sign In</a>
                         <a href="register.php">Sign Up</a>
@@ -39,3 +39,5 @@ session_start();
         </ul>
     </nav>
 </header>
+</body>
+</html>
