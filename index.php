@@ -1,6 +1,8 @@
 <?php
 include 'includes/header.php';
 include 'includes/db.php';
+
+$user_id = $_SESSION['user_id'] ?? null;
 ?>
 
 <div class="outer-container">
@@ -50,7 +52,9 @@ include 'includes/db.php';
                 echo '<div class="post">';
                 echo '<div class="post-header">';
                 echo '<div class="post-avatar-container">';
+                echo '<a href="profile.php?id=' . $row['user_id'] . '">';
                 echo '<img class="post-avatar" src="' . htmlspecialchars($row['profile_picture']) . '" alt="Profile Picture">';
+                echo '</a>';
                 echo '<div class="post-username">' . htmlspecialchars($row["username"]) . '</div>';
                 echo '</div>';
                 echo '<div class="post-details">';

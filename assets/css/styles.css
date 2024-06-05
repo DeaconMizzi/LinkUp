@@ -149,14 +149,37 @@ header {
     position: relative;
 }
 
-.post-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 40%;
-    margin-right: 100px;
-    margin-top: 10px;
+.post-avatar-container {
+    position: relative;
 }
 
+.post-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.add-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 40px;
+    width: 20px;
+    height: 20px;
+}
+
+.follow-form {
+    position: absolute;
+    top: 0;
+    left: 50px;
+}
+
+.btn-follow {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
 .post-header-content {
     display: flex;
     flex-direction: column;
@@ -172,7 +195,6 @@ header {
     width: 50px; /* Adjust to match the width of the avatar */
 }
 
-
 .post-tag {
     display: inline-block;
     padding: 5px 10px;
@@ -182,6 +204,7 @@ header {
     color: #007bff;
     margin-bottom: 10px;
 }
+
 .post-title a {
     text-decoration: none;
     color: inherit; /* Optional: Ensure it inherits the color */
@@ -198,7 +221,6 @@ header {
     padding-top: 10px; /* Optional: Add padding at the top */
     border-top: 1px solid #C9E3FF; /* Add a line before content */
 }
-
 
 .post-content ul {
     list-style: disc;
