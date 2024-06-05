@@ -1,5 +1,19 @@
 <?php
 session_start();
+include 'includes/db.php'; // Make sure to include database connection
+
+$userProfilePicture = 'assets/images/profile.png'; // Default profile picture
+
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+    $sql = "SELECT profile_picture FROM users WHERE user_id = $userId";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $userProfilePicture = htmlspecialchars($row['profile_picture']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +37,7 @@ session_start();
             <li><a href="contact.php"><img src="assets/images/contact.png" alt="Contact"></a></li>
             <li><a href="faq.php"><img src="assets/images/faq.png" alt="FAQ"></a></li>
             <li class="profile-menu">
-                <img src="assets/images/profile.png" alt="Profile">
+                <img src="<?php echo $userProfilePicture; ?>" alt="Profile">
                 <div class="dropdown-content">
                     <?php if(isset($_SESSION['user_id'])): ?>
                         <a href="profile.php">Profile</a>
@@ -39,5 +53,3 @@ session_start();
         </ul>
     </nav>
 </header>
-</body>
-</html>

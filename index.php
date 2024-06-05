@@ -36,7 +36,12 @@ include 'includes/db.php';
 
         <!-- Fetch posts from database and loop through them -->
         <?php
-        $sql = "SELECT * FROM posts";
+        $sql = "SELECT posts.*, tags.tag_name, users.username, users.profile_picture 
+                FROM posts 
+                JOIN posttags ON posts.post_id = posttags.post_id
+                JOIN tags ON posttags.tag_id = tags.tag_id
+                JOIN users ON posts.user_id = users.user_id
+                ORDER BY posts.post_id DESC";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -44,8 +49,11 @@ include 'includes/db.php';
                 echo '<div class="post-container">';
                 echo '<div class="post">';
                 echo '<div class="post-header">';
-                echo '<img class="post-avatar" src="/linkup/assets/images/profile.png" alt="Profile Picture">';
+                echo '<img class="post-avatar" src="' . htmlspecialchars($row["profile_picture"]) . '" alt="Profile Picture">';
+                echo '<div class="post-details">';
                 echo '<h3 class="post-title"><a href="post.php?id=' . $row["post_id"] . '">' . htmlspecialchars($row["title"]) . '</a></h3>';
+                echo '<div class="post-tag">' . htmlspecialchars($row["tag_name"]) . '</div>';
+                echo '</div>';
                 echo '</div>';
                 echo '<div class="post-content"><p>' . htmlspecialchars($row["content"]) . '</p></div>';
                 echo '<div class="post-actions">';

@@ -24,6 +24,11 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
                 <div class="post-content"><?php echo htmlspecialchars($row['content']); ?></div>
+                <div class="post-actions">
+                    <button class="btn-star"><img src="/linkup/assets/images/star.png" alt="Star"></button>
+                    <button class="btn-comment" onclick="highlightAddComment()"><img src="/linkup/assets/images/comment.png" alt="Comment"></button>
+                    <button class="btn-share" onclick="sharePost('<?php echo 'https://yourdomain.com/post/' . $post_id; ?>')"><img src="/linkup/assets/images/share.png" alt="Share"></button>
+                </div>
             </div>
 
             <!-- Comments Section -->
@@ -55,7 +60,7 @@ if ($result->num_rows > 0) {
             </div>
 
             <!-- Add Comment Section -->
-            <div class="add-comment-section">
+            <div id="addCommentSection" class="add-comment-section">
                 <h3>Add a Comment</h3>
                 <form action="actions/add_comment.php" method="post">
                     <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
@@ -67,6 +72,17 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
+    <script>
+        function highlightAddComment() {
+            const addCommentSection = document.getElementById('addCommentSection');
+            addCommentSection.scrollIntoView({ behavior: 'smooth' });
+            addCommentSection.style.transition = 'background-color 0.5s ease';
+            addCommentSection.style.backgroundColor = '#ffffcc';
+            setTimeout(() => {
+                addCommentSection.style.backgroundColor = '#fff';
+            }, 2000);
+        }
+    </script>
     <?php
 } else {
     echo "Post not found.";
