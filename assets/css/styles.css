@@ -175,10 +175,17 @@ header {
 }
 
 .btn-follow {
-    background: none;
+    background-color: #007bff;
+    color: #fff;
     border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    padding: 0;
+    font-size: 16px;
+}
+
+.btn-follow:hover {
+    background-color: #0056b3;
 }
 .post-header-content {
     display: flex;
@@ -253,7 +260,7 @@ header {
 
 /* Profile container styles */
 .profile-container {
-    max-width: 600px;
+    max-width: 900px; /* Adjusted width for consistency */
     margin: 50px 20px; /* Added margin for spacing */
     padding: 20px;
     background-color: #fff;
@@ -342,7 +349,7 @@ header {
 
 /* Followers and Following Container */
 .followers-following-container {
-    max-width: 300px;
+    max-width: 900px; /* Adjusted width for consistency */
     margin: 50px 20px; /* Added margin for spacing */
 }
 
@@ -381,7 +388,7 @@ header {
     margin-right: 10px;
 }
 
-/* Footer styles
+/* Footer styles */
 .footer-container {
     background-color: #333;
     color: #fff;
@@ -398,7 +405,6 @@ header {
     margin: 0;
     padding: 0;
     font-size: 14px;
-
 }
 
 .footer-nav {
@@ -429,7 +435,7 @@ header {
     height: 20px;
     vertical-align: middle;
 }
-*/
+
 /* Sign-up and login container styles */
 .signup-container, .login-container, .contact-container {
     max-width: 600px; /* Adjusted width */
@@ -516,7 +522,6 @@ header {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
-
 }
 
 /* Modal styles */

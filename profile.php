@@ -11,8 +11,11 @@ if (!$logged_in_user_id) {
 }
 
 // Fetch user details from the database
-$sql = "SELECT username, email, bio, profile_picture FROM users WHERE user_id = $profile_user_id";
-$result = $conn->query($sql);
+$sql = "SELECT username, email, bio, profile_picture FROM users WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $profile_user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user) {
@@ -23,8 +26,11 @@ if (!$user) {
 // Check if the logged-in user is following this profile
 $isFollowing = false;
 if ($profile_user_id !== $logged_in_user_id) {
-    $follow_check_sql = "SELECT * FROM followers WHERE follower_id = $logged_in_user_id AND followee_id = $profile_user_id";
-    $follow_check_result = $conn->query($follow_check_sql);
+    $follow_check_sql = "SELECT * FROM followers WHERE follower_id = ? AND followee_id = ?";
+    $stmt = $conn->prepare($follow_check_sql);
+    $stmt->bind_param('ii', $logged_in_user_id, $profile_user_id);
+    $stmt->execute();
+    $follow_check_result = $stmt->get_result();
     $isFollowing = $follow_check_result->num_rows > 0;
 }
 ?>
@@ -45,12 +51,14 @@ if ($profile_user_id !== $logged_in_user_id) {
                 <p class="profile-bio"><?php echo htmlspecialchars($user['bio']); ?></p>
             </div>
             <?php if ($profile_user_id === $logged_in_user_id): ?>
+                <!-- Buttons for the logged-in user's own profile -->
                 <div class="profile-actions">
                     <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
                     <button class="btn-password" id="changePasswordBtn">Change Password</button>
                     <button class="btn-delete" onclick="location.href='/linkup/templates/account/delete_profile.php'">Delete Profile</button>
                 </div>
             <?php elseif ($logged_in_user_id): ?>
+                <!-- Follow/Unfollow button for viewing other users' profiles -->
                 <div class="profile-actions">
                     <form action="actions/<?php echo $isFollowing ? 'unfollow.php' : 'follow.php'; ?>" method="post">
                         <input type="hidden" name="followee_id" value="<?php echo $profile_user_id; ?>">
@@ -67,13 +75,17 @@ if ($profile_user_id !== $logged_in_user_id) {
             <h3>Followers</h3>
             <ul id="followers-list">
                 <?php
-                $sql_followers = "SELECT users.username, users.profile_picture FROM followers 
+                $sql_followers = "SELECT users.user_id, users.username, users.profile_picture FROM followers 
                                   JOIN users ON followers.follower_id = users.user_id 
-                                  WHERE followers.followee_id = $profile_user_id";
-                $result_followers = $conn->query($sql_followers);
+                                  WHERE followers.followee_id = ?";
+                $stmt = $conn->prepare($sql_followers);
+                $stmt->bind_param('i', $profile_user_id);
+                $stmt->execute();
+                $result_followers = $stmt->get_result();
                 if ($result_followers->num_rows > 0) {
                     while ($follower = $result_followers->fetch_assoc()) {
-                        echo '<li><img src="' . htmlspecialchars($follower['profile_picture']) . '" alt="' . htmlspecialchars($follower['username']) . '"> ' . htmlspecialchars($follower['username']) . '</li>';
+                        $profile_picture = $follower['profile_picture'] ? htmlspecialchars($follower['profile_picture']) : '/linkup/assets/images/profile.png';
+                        echo '<li><a href="profile.php?id=' . htmlspecialchars($follower['user_id']) . '"><img src="' . $profile_picture . '" alt="' . htmlspecialchars($follower['username']) . '">' . htmlspecialchars($follower['username']) . '</a></li>';
                     }
                 } else {
                     echo '<li>No followers yet.</li>';
@@ -87,13 +99,17 @@ if ($profile_user_id !== $logged_in_user_id) {
             <h3>Following</h3>
             <ul id="following-list">
                 <?php
-                $sql_following = "SELECT users.username, users.profile_picture FROM followers 
+                $sql_following = "SELECT users.user_id, users.username, users.profile_picture FROM followers 
                                   JOIN users ON followers.followee_id = users.user_id 
-                                  WHERE followers.follower_id = $profile_user_id";
-                $result_following = $conn->query($sql_following);
+                                  WHERE followers.follower_id = ?";
+                $stmt = $conn->prepare($sql_following);
+                $stmt->bind_param('i', $profile_user_id);
+                $stmt->execute();
+                $result_following = $stmt->get_result();
                 if ($result_following->num_rows > 0) {
                     while ($following = $result_following->fetch_assoc()) {
-                        echo '<li><img src="' . htmlspecialchars($following['profile_picture']) . '" alt="' . htmlspecialchars($following['username']) . '"> ' . htmlspecialchars($following['username']) . '</li>';
+                        $profile_picture = $following['profile_picture'] ? htmlspecialchars($following['profile_picture']) : '/linkup/assets/images/profile.png';
+                        echo '<li><a href="profile.php?id=' . htmlspecialchars($following['user_id']) . '"><img src="' . $profile_picture . '" alt="' . htmlspecialchars($following['username']) . '">' . htmlspecialchars($following['username']) . '</a></li>';
                     }
                 } else {
                     echo '<li>Not following anyone yet.</li>';
