@@ -1,7 +1,8 @@
 <?php
 session_start();
 include 'includes/db.php'; // Make sure to include database connection
-
+$user_id = $_SESSION['user_id'] ?? null;
+$user_role = $_SESSION['user_role'] ?? null;
 $userProfilePicture = 'assets/images/profile.png'; // Default profile picture
 $isAdmin = false;
 

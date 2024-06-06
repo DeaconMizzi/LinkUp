@@ -2,10 +2,19 @@
 include 'includes/header.php';
 include 'includes/db.php';
 
-session_start();
-
 $user_id = $_SESSION['user_id'] ?? null;
-$user_role = $_SESSION['user_role'] ?? 'user';
+$role = $_SESSION['role'] ?? '';
+
+// Fetch user's role
+$sql_role = "SELECT userroles.role_name 
+             FROM userroles 
+             JOIN userroleassignments ON userroles.role_id = userroleassignments.role_id 
+             WHERE userroleassignments.user_id = ?";
+$stmt_role = $conn->prepare($sql_role);
+$stmt_role->bind_param('i', $user_id);
+$stmt_role->execute();
+$result_role = $stmt_role->get_result();
+$role = ($result_role->num_rows > 0) ? $result_role->fetch_assoc()['role_name'] : '';
 
 ?>
 
@@ -94,10 +103,10 @@ $user_role = $_SESSION['user_role'] ?? 'user';
                 echo '</form>';
                 echo '<a href="post.php?id=' . $row["post_id"] . '"><button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button></a>';
                 echo '<button class="btn-share" onclick="sharePost(\'https://yourdomain.com/post/' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
-                if ($user_role == 'admin' || $user_role == 'mod') {
-                    echo '<form action="actions/delete_post.php" method="post">';
+                if ($role === 'Admin' || $role === 'Mod') {
+                    echo '<form action="actions/delete_post.php" method="post" class="delete-post-form">';
                     echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-                    echo '<button type="submit" class="btn-delete">Delete Post</button>';
+                    echo '<button type="submit" class="btn-delete-post">Delete Post</button>';
                     echo '</form>';
                 }
                 echo '</div>';
