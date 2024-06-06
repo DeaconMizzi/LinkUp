@@ -117,6 +117,39 @@ if ($profile_user_id !== $logged_in_user_id) {
                 ?>
             </ul>
         </div>
+
+        <!-- Liked Posts Section -->
+        <div class="liked-posts-container">
+            <h3>Liked Posts</h3>
+            <ul class="liked-posts-list">
+                <?php
+                $sql_liked_posts = "SELECT posts.post_id, posts.title, posts.content, posts.user_id, users.username, users.profile_picture 
+                                    FROM likedposts 
+                                    JOIN posts ON likedposts.post_id = posts.post_id 
+                                    JOIN users ON posts.user_id = users.user_id 
+                                    WHERE likedposts.user_id = ?";
+                $stmt = $conn->prepare($sql_liked_posts);
+                $stmt->bind_param('i', $profile_user_id);
+                $stmt->execute();
+                $result_liked_posts = $stmt->get_result();
+                if ($result_liked_posts->num_rows > 0) {
+                    while ($liked_post = $result_liked_posts->fetch_assoc()) {
+                        $profile_picture = $liked_post['profile_picture'] ? htmlspecialchars($liked_post['profile_picture']) : '/linkup/assets/images/profile.png';
+                        echo '<li class="liked-post-item">';
+                        echo '<a href="post.php?id=' . htmlspecialchars($liked_post['post_id']) . '">';
+                        echo '<img src="' . $profile_picture . '" alt="' . htmlspecialchars($liked_post['username']) . '">';
+                        echo '<div>';
+                        echo '<h4>' . htmlspecialchars($liked_post['title']) . '</h4>';
+                        echo '</div>';
+                        echo '</a>';
+                        echo '</li>';
+                    }
+                } else {
+                    echo '<li>No liked posts yet.</li>';
+                }
+                ?>
+            </ul>
+        </div>
     </div>
 </div>
 
@@ -133,7 +166,8 @@ if ($profile_user_id !== $logged_in_user_id) {
                 </div>
                 <div class="form-group">
                     <label for="bio">Change Bio:</label>
-                    <textarea id="bio" name="bio"><?php echo htmlspecialchars($user['bio']); ?></textarea>
+                    <textarea id="bio" name="bio" maxlength="160"><?php echo htmlspecialchars($user['bio']); ?></textarea>
+                    <p id="bio-char-count">160 characters remaining</p>
                 </div>
                 <div class="form-group">
                     <label for="profile_picture">Change Profile Picture:</label>

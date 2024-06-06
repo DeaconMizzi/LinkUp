@@ -21,7 +21,10 @@ if ($result->num_rows > 0) {
                     <img class="post-avatar" src="<?php echo htmlspecialchars($row['profile_picture']) ?: '/linkup/assets/images/profile.png'; ?>" alt="Profile Picture">
                     <div class="post-header-content">
                         <h2 class="post-title"><?php echo htmlspecialchars($row['title']); ?></h2>
-                        <p class="post-username">Posted by: <?php echo htmlspecialchars($row['username']); ?></p>
+                        <p class="posted-by">
+                            Posted by:
+                            <span class="post-username"><?php echo htmlspecialchars($row['username']); ?></span>
+                        </p>
                     </div>
                 </div>
                 <div class="post-content"><?php echo htmlspecialchars($row['content']); ?></div>
@@ -67,18 +70,24 @@ if ($result->num_rows > 0) {
 
                     if ($result_comments->num_rows > 0) {
                         while ($comment = $result_comments->fetch_assoc()) {
-                            echo '<li>';
-                            echo '<img class="comment-avatar" src="' . htmlspecialchars($comment['profile_picture']) . '" alt="Profile Picture">';
+                            $comment_profile_picture = htmlspecialchars($comment['profile_picture']) ?: '/linkup/assets/images/profile.png';
+                            echo '<li class="comment-item">';
+                            echo '<div class="comment-avatar-wrapper">';
+                            echo '<img class="comment-avatar" src="' . $comment_profile_picture . '" alt="Profile Picture">';
+                            echo '</div>';
                             echo '<div class="comment-content-wrapper">';
                             echo '<p class="comment-username">' . htmlspecialchars($comment['username']) . '</p>';
                             echo '<div class="comment-content">' . htmlspecialchars($comment['content']) . '</div>';
-                            if (in_array($logged_in_user_id, ['admin', 'mod'])) {
-                                echo '<form action="actions/delete_comment.php" method="post">';
-                                echo '<input type="hidden" name="comment_id" value="' . $comment['comment_id'] . '">';
-                                echo '<button type="submit" class="btn-delete">Delete</button>';
-                                echo '</form>';
-                            }
                             echo '</div>';
+                            // Include delete button for admin and mod
+                            if (in_array($_SESSION['user_role'], ['Admin', 'Mod'])) {
+                                echo '<form action="actions/delete_comment.php" method="post" class="delete-form">';
+                                echo '<input type="hidden" name="comment_id" value="' . $comment['comment_id'] . '">';
+                                echo '<button type="submit" class="btn-post-delete">';
+                                echo '<img src="/linkup/assets/images/delete.png" alt="Delete">';
+                                echo '</button>';
+                            }
+                            echo '</form>';
                             echo '</li>';
                         }
                     } else {

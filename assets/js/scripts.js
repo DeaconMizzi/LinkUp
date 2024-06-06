@@ -100,4 +100,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
             addCommentSection.style.backgroundColor = '#fff';
         }, 2000);
     }
+
+    // Character limit for bio
+    const bioTextarea = document.getElementById('bio');
+    const bioCharCount = document.getElementById('bio-char-count');
+    const maxBioLength = 160;
+
+    if (bioTextarea) {
+        bioTextarea.addEventListener('input', () => {
+            const remaining = maxBioLength - bioTextarea.value.length;
+            bioCharCount.textContent = `${remaining} characters remaining`;
+        });
+    }
 });

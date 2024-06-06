@@ -3,6 +3,19 @@ include 'includes/header.php';
 include 'includes/db.php';
 
 $user_id = $_SESSION['user_id'] ?? null;
+
+// Fetch the role of the logged-in user
+$logged_in_user_role = 'User';
+if ($user_id) {
+    $sql = "SELECT userroles.role_name 
+            FROM users 
+            LEFT JOIN userroleassignments ON users.user_id = userroleassignments.user_id 
+            LEFT JOIN userroles ON userroleassignments.role_id = userroles.role_id 
+            WHERE users.user_id = $user_id";
+    $result = $conn->query($sql);
+    $logged_in_user_role = $result->fetch_assoc()['role_name'] ?? 'User';
+}
+
 ?>
 
 <div class="outer-container">
@@ -83,7 +96,7 @@ $user_id = $_SESSION['user_id'] ?? null;
                 echo '<div class="post-actions">';
                 echo '<form action="actions/add_star.php" method="post" class="star-form">';
                 echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-                echo '<input type="hidden" name="redirect_to" value="' . $_SERVER['REQUEST_URI'] . '">';
+                echo '<input type="hidden" name="redirect_to" value="../index.php">';
                 echo '<button type="submit" class="btn-star">';
                 echo '<img src="/linkup/assets/images/' . ($is_starred ? 'starred.png' : 'star.png') . '" alt="Star">';
                 echo '</button>';
@@ -91,6 +104,15 @@ $user_id = $_SESSION['user_id'] ?? null;
                 echo '</form>';
                 echo '<a href="post.php?id=' . $row["post_id"] . '"><button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button></a>';
                 echo '<button class="btn-share" onclick="sharePost(\'http://localhost/linkup/post.php?id=' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
+
+                // Add the delete button for admin and mod users
+                if ($logged_in_user_role == 'Admin' || $logged_in_user_role == 'Mod') {
+                    echo '<form action="actions/delete_post.php" method="post" class="delete-form">';
+                    echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
+                    echo '<button type="submit" class="btn-delete">Delete</button>';
+                    echo '</form>';
+                }
+
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';

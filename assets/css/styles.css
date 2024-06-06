@@ -253,6 +253,10 @@ header {
     cursor: pointer;
     font-size: 16px;
 }
+.btn-delete img {
+    width: 20px; /* Adjust the size of the delete icon as needed */
+    height: 20px;
+}
 
 .btn-delete:hover {
     background-color: #c82333; /* Slightly darker on hover */
@@ -269,6 +273,8 @@ header {
 /* Profile container styles */
 .profile-container {
     max-width: 600px;
+    max-height: 600px;
+    min-width: 600px;
     margin: 50px 20px; /* Added margin for spacing */
     padding: 20px;
     background-color: #fff;
@@ -312,6 +318,8 @@ header {
     padding: 10px;
     border-radius: 5px;
     margin-top: 5px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .profile-actions {
@@ -786,22 +794,17 @@ header {
 .post-header-content {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    align-items: center; /* Center the content horizontally */
+    text-align: center; /* Center the text */
+    margin-left: 20px; /* Add some spacing to the left */
 }
 
 .post-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin: 0;
+    margin-bottom: 5px; /* Add some space between the title and "Posted by" */
 }
 
 .post-username {
-    font-size: 16px;
-    color: #777;
-    margin: 0;
-    text-align: right;
-    align-self: flex-end;
+    margin-top: 0; /* Remove any default margin at the top */
 }
 
 .comments-section h3, .add-comment-section h3 {
@@ -876,4 +879,94 @@ header {
 
 .add-comment-section .btn-post:hover {
     background-color: #0056b3;
+}
+
+/* Liked Posts Section */
+.liked-posts-container {
+    max-width: 600px;
+
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+.liked-posts-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+}
+
+.liked-posts-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.liked-post-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 280px; /* Adjust width as needed */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.liked-post-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.liked-post-item h4 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+.comment-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.comment-avatar-wrapper {
+    flex-shrink: 0;
+}
+
+.comment-content-wrapper {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.btn-post-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.btn-post-delete img {
+    width: 20px; 
+    height: 20px;
 }
