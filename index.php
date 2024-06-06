@@ -109,7 +109,9 @@ if ($user_id) {
                 if ($logged_in_user_role == 'Admin' || $logged_in_user_role == 'Mod') {
                     echo '<form action="actions/delete_post.php" method="post" class="delete-form">';
                     echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-                    echo '<button type="submit" class="btn-delete">Delete</button>';
+                    echo '<button type="submit" class="btn-delete">';
+                    echo '<img src="/linkup/assets/images/delete.png" alt="Delete">';
+                    echo '</button>';
                     echo '</form>';
                 }
 

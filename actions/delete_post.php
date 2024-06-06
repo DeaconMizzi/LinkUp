@@ -1,56 +1,58 @@
 <?php
-session_start();
 include '../includes/db.php';
+session_start();
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit();
 }
 
-$post_id = $_POST['post_id'] ?? null;
+$user_id = $_SESSION['user_id'];
+$post_id = $_POST['post_id'];
 
-if ($post_id) {
-    // Begin a transaction
+try {
+    // Start transaction
     $conn->begin_transaction();
 
-    try {
-        // Delete related entries from posttags
-        $sql_posttags = "DELETE FROM posttags WHERE post_id = ?";
-        $stmt_posttags = $conn->prepare($sql_posttags);
-        $stmt_posttags->bind_param('i', $post_id);
-        $stmt_posttags->execute();
+    // Delete from likedposts
+    $sql = "DELETE FROM likedposts WHERE post_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
 
-        // Delete related entries from comments
-        $sql_comments = "DELETE FROM comments WHERE post_id = ?";
-        $stmt_comments = $conn->prepare($sql_comments);
-        $stmt_comments->bind_param('i', $post_id);
-        $stmt_comments->execute();
+    // Delete from stars
+    $sql = "DELETE FROM stars WHERE post_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
 
-        // Delete related entries from stars
-        $sql_stars = "DELETE FROM stars WHERE post_id = ?";
-        $stmt_stars = $conn->prepare($sql_stars);
-        $stmt_stars->bind_param('i', $post_id);
-        $stmt_stars->execute();
+    // Delete from posttags
+    $sql = "DELETE FROM posttags WHERE post_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
 
-        // Delete the post from the database
-        $sql_posts = "DELETE FROM posts WHERE post_id = ?";
-        $stmt_posts = $conn->prepare($sql_posts);
-        $stmt_posts->bind_param('i', $post_id);
-        $stmt_posts->execute();
+    // Delete from comments
+    $sql = "DELETE FROM comments WHERE post_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
 
-        // Commit the transaction
-        $conn->commit();
+    // Delete the post itself
+    $sql = "DELETE FROM posts WHERE post_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $post_id);
+    $stmt->execute();
 
-        // Redirect back to index.php
-        header("Location: ../index.php");
-        exit();
-    } catch (Exception $e) {
-        // Rollback the transaction in case of error
-        $conn->rollback();
-        echo "Error deleting post: " . $e->getMessage();
-    }
-} else {
-    echo "No post ID provided.";
+    // Commit transaction
+    $conn->commit();
+
+    header("Location: ../index.php");
+    exit();
+} catch (Exception $e) {
+    // Rollback transaction if something goes wrong
+    $conn->rollback();
+    echo "Error deleting post: " . $e->getMessage();
 }
 
 $conn->close();

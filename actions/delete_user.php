@@ -2,36 +2,42 @@
 include '../includes/db.php';
 session_start();
 
-// Ensure the user is a mod or admin
 $logged_in_user_id = $_SESSION['user_id'] ?? null;
+$user_id_to_delete = $_POST['user_id'] ?? null;
 
 if (!$logged_in_user_id) {
     header("Location: ../login.php");
     exit();
 }
 
-// Fetch the role of the logged-in user
-$sql = "SELECT userroles.role_name 
-        FROM users 
-        LEFT JOIN userroleassignments ON users.user_id = userroleassignments.user_id 
-        LEFT JOIN userroles ON userroleassignments.role_id = userroles.role_id 
-        WHERE users.user_id = $logged_in_user_id";
-$result = $conn->query($sql);
-$logged_in_user_role = $result->fetch_assoc()['role_name'] ?? 'User';
+// If the user is deleting their own account or if the user is an admin or mod
+if ($user_id_to_delete == $logged_in_user_id || in_array($_SESSION['user_role'], ['Admin', 'Mod'])) {
+    // Delete the user
+    $delete_user_sql = "DELETE FROM users WHERE user_id = ?";
+    $stmt = $conn->prepare($delete_user_sql);
+    $stmt->bind_param('i', $user_id_to_delete);
+    $stmt->execute();
 
-if ($logged_in_user_role != 'Mod' && $logged_in_user_role != 'Admin') {
+    // Optionally, you can delete related data from other tables if needed
+    // For example, deleting from likedposts table
+    $delete_likedposts_sql = "DELETE FROM likedposts WHERE user_id = ?";
+    $stmt = $conn->prepare($delete_likedposts_sql);
+    $stmt->bind_param('i', $user_id_to_delete);
+    $stmt->execute();
+
+    $conn->close();
+
+    // If the user deleted their own profile, destroy the session and redirect to login
+    if ($user_id_to_delete == $logged_in_user_id) {
+        session_destroy();
+        header("Location: ../login.php");
+        exit();
+    } else {
+        header("Location: ../user_management.php");
+        exit();
+    }
+} else {
     header("Location: ../index.php");
     exit();
 }
-
-// Delete user
-$user_id = $_POST['user_id'];
-$delete_user_sql = "DELETE FROM users WHERE user_id = $user_id";
-$conn->query($delete_user_sql);
-
-// Optionally, you can delete related data from other tables if needed
-
-$conn->close();
-header("Location: ../user_management.php");
-exit();
 ?>

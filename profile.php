@@ -10,6 +10,11 @@ if (!$logged_in_user_id) {
     exit();
 }
 
+if (!$profile_user_id) {
+    echo "Profile user ID not found.";
+    exit();
+}
+
 // Fetch user details from the database
 $sql = "SELECT username, email, bio, profile_picture FROM users WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
@@ -55,7 +60,10 @@ if ($profile_user_id !== $logged_in_user_id) {
                 <div class="profile-actions">
                     <button class="btn-edit" id="editProfileBtn">Edit Profile</button>
                     <button class="btn-password" id="changePasswordBtn">Change Password</button>
-                    <button class="btn-delete" onclick="location.href='/linkup/templates/account/delete_profile.php'">Delete Profile</button>
+                    <form id="deleteProfileForm" action="actions/delete_user.php" method="post">
+                        <input type="hidden" name="user_id" value="<?php echo $logged_in_user_id; ?>">
+                        <button type="submit" class="btn-delete" id="deleteProfileBtn">Delete Profile</button>
+                    </form>
                 </div>
             <?php elseif ($logged_in_user_id): ?>
                 <!-- Follow/Unfollow button for viewing other users' profiles -->
@@ -117,39 +125,33 @@ if ($profile_user_id !== $logged_in_user_id) {
                 ?>
             </ul>
         </div>
+    </div>
 
-        <!-- Liked Posts Section -->
-        <div class="liked-posts-container">
-            <h3>Liked Posts</h3>
-            <ul class="liked-posts-list">
-                <?php
-                $sql_liked_posts = "SELECT posts.post_id, posts.title, posts.content, posts.user_id, users.username, users.profile_picture 
-                                    FROM likedposts 
-                                    JOIN posts ON likedposts.post_id = posts.post_id 
-                                    JOIN users ON posts.user_id = users.user_id 
-                                    WHERE likedposts.user_id = ?";
-                $stmt = $conn->prepare($sql_liked_posts);
-                $stmt->bind_param('i', $profile_user_id);
-                $stmt->execute();
-                $result_liked_posts = $stmt->get_result();
-                if ($result_liked_posts->num_rows > 0) {
-                    while ($liked_post = $result_liked_posts->fetch_assoc()) {
-                        $profile_picture = $liked_post['profile_picture'] ? htmlspecialchars($liked_post['profile_picture']) : '/linkup/assets/images/profile.png';
-                        echo '<li class="liked-post-item">';
-                        echo '<a href="post.php?id=' . htmlspecialchars($liked_post['post_id']) . '">';
-                        echo '<img src="' . $profile_picture . '" alt="' . htmlspecialchars($liked_post['username']) . '">';
-                        echo '<div>';
-                        echo '<h4>' . htmlspecialchars($liked_post['title']) . '</h4>';
-                        echo '</div>';
-                        echo '</a>';
-                        echo '</li>';
-                    }
-                } else {
-                    echo '<li>No liked posts yet.</li>';
+    <div class="liked-posts-section">
+        <h3>Liked Posts</h3>
+        <ul class="liked-posts-list">
+            <?php
+            $liked_posts_sql = "SELECT posts.*, users.username, users.profile_picture FROM likedposts
+                                JOIN posts ON likedposts.post_id = posts.post_id
+                                JOIN users ON posts.user_id = users.user_id
+                                WHERE likedposts.user_id = ?";
+            $stmt = $conn->prepare($liked_posts_sql);
+            $stmt->bind_param('i', $profile_user_id);
+            $stmt->execute();
+            $result_liked_posts = $stmt->get_result();
+            if ($result_liked_posts->num_rows > 0) {
+                while ($post = $result_liked_posts->fetch_assoc()) {
+                    $profile_picture = $post['profile_picture'] ? htmlspecialchars($post['profile_picture']) : '/linkup/assets/images/profile.png';
+                    echo '<li class="liked-post-item">';
+                    echo '<img src="' . $profile_picture . '" alt="Profile Picture">';
+                    echo '<h4><a href="post.php?id=' . $post['post_id'] . '">' . htmlspecialchars($post['title']) . '</a></h4>';
+                    echo '</li>';
                 }
-                ?>
-            </ul>
-        </div>
+            } else {
+                echo '<li>No liked posts yet.</li>';
+            }
+            ?>
+        </ul>
     </div>
 </div>
 
@@ -159,15 +161,16 @@ if ($profile_user_id !== $logged_in_user_id) {
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Edit Profile</h2>
-            <form method="post" action="actions/update_profile.php" enctype="multipart/form-data">
+            <form id="editProfileForm" method="post" action="actions/update_profile.php" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Change Username:</label>
                     <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>">
+                    <div id="usernameValidation" class="validation-message"></div> <!-- Validation message element -->
                 </div>
                 <div class="form-group">
                     <label for="bio">Change Bio:</label>
-                    <textarea id="bio" name="bio" maxlength="160"><?php echo htmlspecialchars($user['bio']); ?></textarea>
-                    <p id="bio-char-count">160 characters remaining</p>
+                    <textarea id="bio" name="bio"><?php echo htmlspecialchars($user['bio']); ?></textarea>
+                    <div id="bio-char-count"></div> <!-- Bio character count -->
                 </div>
                 <div class="form-group">
                     <label for="profile_picture">Change Profile Picture:</label>
@@ -177,24 +180,23 @@ if ($profile_user_id !== $logged_in_user_id) {
             </form>
         </div>
     </div>
-
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Change Password</h2>
-            <form>
+            <form id="changePasswordForm" action="actions/change_password.php" method="post">
                 <div class="form-group">
                     <label for="current-password">Current Password:</label>
-                    <input type="password" id="current-password" name="current-password" required>
+                    <input type="password" id="current-password" name="current_password" required>
                 </div>
                 <div class="form-group">
                     <label for="new-password">New Password:</label>
-                    <input type="password" id="new-password" name="new-password" required>
+                    <input type="password" id="new-password" name="new_password" required>
                 </div>
                 <div class="form-group">
                     <label for="confirm-password">Confirm New Password:</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <input type="password" id="confirm-password" name="confirm_password" required>
                 </div>
                 <button type="submit" class="btn-save">Save</button>
             </form>

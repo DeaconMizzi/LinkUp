@@ -231,6 +231,19 @@ header {
 .post-actions {
     display: flex;
     justify-content: space-around;
+    align-items: center;
+    padding: 10px 0; /* Optional: Add some padding if needed */
+}
+
+.post-actions form,
+.post-actions button {
+    display: inline-flex;
+    align-items: center;
+}
+
+.post-actions img {
+    width: 30px;
+    height: 30px;
 }
 
 .post-actions button {
@@ -397,17 +410,17 @@ header {
     margin-right: 10px;
 }
 
-/* Footer styles
+/* Footer styles*/
 .footer-container {
     background-color: #333;
     color: #fff;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     border-top: 1px solid #ddd;
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 10%;
+    height: 5%;
 }
 
 .footer-container p {
@@ -445,7 +458,7 @@ header {
     height: 20px;
     vertical-align: middle;
 }
-*/
+
 /* Sign-up and login container styles */
 .signup-container, .login-container, .contact-container {
     max-width: 600px; /* Adjusted width */
@@ -882,9 +895,8 @@ header {
 }
 
 /* Liked Posts Section */
-.liked-posts-container {
+.liked-posts-section {
     max-width: 600px;
-
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
@@ -967,6 +979,6 @@ header {
 }
 
 .btn-post-delete img {
-    width: 20px; 
+    width: 20px;
     height: 20px;
 }

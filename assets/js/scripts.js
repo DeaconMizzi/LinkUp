@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             addCommentSection.style.backgroundColor = '#fff';
         }, 2000);
     }
+
     window.sharePost = function(url) {
         if (navigator.share) {
             navigator.share({
@@ -90,17 +91,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         document.body.removeChild(textArea);
     }
 
-    // Highlight the add comment section
-    window.highlightAddComment = function() {
-        const addCommentSection = document.getElementById('addCommentSection');
-        addCommentSection.scrollIntoView({ behavior: 'smooth' });
-        addCommentSection.style.transition = 'background-color 0.5s ease';
-        addCommentSection.style.backgroundColor = '#ffffcc';
-        setTimeout(() => {
-            addCommentSection.style.backgroundColor = '#fff';
-        }, 2000);
-    }
-
     // Character limit for bio
     const bioTextarea = document.getElementById('bio');
     const bioCharCount = document.getElementById('bio-char-count');
@@ -110,6 +100,36 @@ document.addEventListener('DOMContentLoaded', (event) => {
         bioTextarea.addEventListener('input', () => {
             const remaining = maxBioLength - bioTextarea.value.length;
             bioCharCount.textContent = `${remaining} characters remaining`;
+        });
+    }
+
+    // Minimum and Maximum Length for Username
+    const usernameInput = document.getElementById('username');
+    const usernameValidation = document.getElementById('usernameValidation');
+    const minUsernameLength = 3;
+    const maxUsernameLength = 20;
+
+    if (usernameInput) {
+        usernameInput.addEventListener('input', () => {
+            const usernameLength = usernameInput.value.length;
+            if (usernameLength < minUsernameLength) {
+                usernameValidation.textContent = `Username must be at least ${minUsernameLength} characters long.`;
+            } else if (usernameLength > maxUsernameLength) {
+                usernameValidation.textContent = `Username must be no more than ${maxUsernameLength} characters long.`;
+            } else {
+                usernameValidation.textContent = '';
+            }
+        });
+    }
+
+    // Confirmation dialog for profile deletion
+    const deleteProfileBtn = document.getElementById('deleteProfileBtn');
+    if (deleteProfileBtn) {
+        deleteProfileBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
+                document.getElementById('deleteProfileForm').submit();
+            }
         });
     }
 });
