@@ -7,14 +7,16 @@ include 'includes/header.php';
         <h2>Welcome to LinkUp!</h2>
         <br>
         <h3>Log In</h3>
-        <form action="actions/login_process.php" method="post">
+        <form id="loginForm" action="actions/login_process.php" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Email" required>
+                <span id="emailError" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
+                <span id="passwordError" class="error-message"></span>
             </div>
             <button type="submit" class="btn-login">Log In</button>
         </form>
@@ -36,5 +38,3 @@ include 'includes/header.php';
 <?php
 include 'includes/footer.php';
 ?>
-
-

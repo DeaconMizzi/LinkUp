@@ -429,9 +429,26 @@ header {
     font-size: 14px;
 
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+.error {
+    border-color: red;
+}
 
 .footer-nav {
     margin: 10px 0;
+}
+.post-image {
+    max-width: 50%;
+    height: auto;
+    display: block;
+    margin: 10px auto; /* Center the image */
+    border-radius: 10px; /
+    vertical-align:center;
 }
 
 .footer-nav a {

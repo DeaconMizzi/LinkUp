@@ -43,22 +43,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container signup-container">
         <h2>Welcome to LinkUp!</h2><br>
         <h3>Register</h3>
-        <form action="register.php" method="post">
+        <form id="registerForm" action="register.php" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Email" required>
+                <span id="emailError" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Username" required>
+                <span id="usernameError" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
+                <span id="passwordError" class="error-message"></span>
             </div>
             <div class="form-group">
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                <span id="confirmPasswordError" class="error-message"></span>
             </div>
             <button type="submit" class="btn-register">Register</button>
         </form>

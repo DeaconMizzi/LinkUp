@@ -22,7 +22,7 @@ if ($user_id) {
     <div class="container">
         <div class="create-post">
             <h2>Create Post</h2>
-            <form action="actions/create_post.php" method="post">
+            <form action="actions/create_post.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="tag">Tag</label>
                     <select id="tag" name="tag">
@@ -44,6 +44,10 @@ if ($user_id) {
                 <div class="form-group">
                     <label for="content">Enter Post text...</label>
                     <textarea id="content" name="content" rows="4" placeholder="Enter Post text..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Upload Image</label>
+                    <input type="file" id="image" name="image">
                 </div>
                 <button type="submit" class="btn-post">Post</button>
             </form>
@@ -92,7 +96,12 @@ if ($user_id) {
                 echo '<div class="post-tag">' . htmlspecialchars($row["tag_name"]) . '</div>';
                 echo '</div>';
                 echo '</div>';
-                echo '<div class="post-content"><p>' . htmlspecialchars($row["content"]) . '</p></div>';
+                echo '<div class="post-content">';
+                if ($row['image_path']) {
+                    echo '<img src="' . $row['image_path'] . '" alt="Post Image" class="post-image">';
+                }
+                echo '<p>' . htmlspecialchars($row["content"]) . '</p>';
+                echo '</div>';
                 echo '<div class="post-actions">';
                 echo '<form action="actions/add_star.php" method="post" class="star-form">';
                 echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
@@ -126,6 +135,10 @@ if ($user_id) {
         ?>
     </div>
 </div>
+
+<?php
+include 'includes/footer.php';
+?>
 
 <?php
 include 'includes/footer.php';
