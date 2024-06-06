@@ -132,4 +132,51 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
     }
+
+    // Validation for Change Password Form
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const currentPasswordInput = document.getElementById('current-password');
+    const newPasswordInput = document.getElementById('new-password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const currentPasswordValidation = document.getElementById('currentPasswordValidation');
+    const newPasswordValidation = document.getElementById('newPasswordValidation');
+    const confirmPasswordValidation = document.getElementById('confirmPasswordValidation');
+
+    const minPasswordLength = 6;
+    const maxPasswordLength = 20;
+
+    if (changePasswordForm) {
+        changePasswordForm.addEventListener('submit', (event) => {
+            let valid = true;
+
+            // Check current password
+            if (currentPasswordInput.value.length < minPasswordLength) {
+                currentPasswordValidation.textContent = `Current password must be at least ${minPasswordLength} characters long.`;
+                valid = false;
+            } else {
+                currentPasswordValidation.textContent = '';
+            }
+
+            // Check new password
+            if (newPasswordInput.value.length < minPasswordLength || newPasswordInput.value.length > maxPasswordLength) {
+                newPasswordValidation.textContent = `New password must be between ${minPasswordLength} and ${maxPasswordLength} characters long.`;
+                valid = false;
+            } else {
+                newPasswordValidation.textContent = '';
+            }
+
+            // Check if new password and confirm password match
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
+                confirmPasswordValidation.textContent = 'New password and confirm password do not match.';
+                valid = false;
+            } else {
+                confirmPasswordValidation.textContent = '';
+            }
+
+            // If validation fails, prevent form submission
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    }
 });

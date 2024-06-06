@@ -189,19 +189,23 @@ if ($profile_user_id !== $logged_in_user_id) {
                 <div class="form-group">
                     <label for="current-password">Current Password:</label>
                     <input type="password" id="current-password" name="current_password" required>
+                    <div id="currentPasswordValidation" class="validation-message"></div> <!-- Validation message element -->
                 </div>
                 <div class="form-group">
                     <label for="new-password">New Password:</label>
                     <input type="password" id="new-password" name="new_password" required>
+                    <div id="newPasswordValidation" class="validation-message"></div> <!-- Validation message element -->
                 </div>
                 <div class="form-group">
                     <label for="confirm-password">Confirm New Password:</label>
                     <input type="password" id="confirm-password" name="confirm_password" required>
+                    <div id="confirmPasswordValidation" class="validation-message"></div> <!-- Validation message element -->
                 </div>
                 <button type="submit" class="btn-save">Save</button>
             </form>
         </div>
     </div>
+
 <?php endif; ?>
 
 <?php include 'includes/footer.php'; ?>
