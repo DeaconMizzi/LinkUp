@@ -9,6 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 $post_id = $_POST['post_id'];
+$redirect_to = $_POST['redirect_to'] ?? '../index.php';
 
 // Check if the user has already liked the post
 $star_check_sql = "SELECT * FROM stars WHERE user_id = $user_id AND post_id = $post_id";
@@ -25,5 +26,6 @@ if ($star_check_result->num_rows > 0) {
 }
 
 $conn->close();
-header("Location: ../index.php");
+header("Location: $redirect_to");
+exit();
 ?>

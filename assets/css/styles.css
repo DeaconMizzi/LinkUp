@@ -680,7 +680,7 @@ header {
 }
 
 /* Role Management Page */
-.role-management-container {
+.role-management-container, .tag-management-container {
     max-width: 900px;
     margin: 50px auto;
     padding: 20px;
@@ -691,39 +691,39 @@ header {
     text-align: center;
 }
 
-.role-management-container h2 {
+.role-management-container h2, .tag-management-container h2 {
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
     font-weight: bold;
 }
 
-.role-table {
+.role-table, tag-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-.role-table th, .role-table td {
+.role-table th, .role-table td, .tag-table th, .tag-table td {
     padding: 10px;
     border: 1px solid #ddd;
 }
 
-.role-table th {
+.role-table th, .tag-table th {
     background-color: #f4f4f4;
 }
 
-.role-table td {
+.role-table td, .tag-table td {
     text-align: center;
 }
 
-.role-table .actions {
+.role-table .actions, .tag-table .actions {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
 
-.role-table .btn {
+.role-table .btn, .tag-table .btn {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -731,21 +731,21 @@ header {
     font-size: 14px;
 }
 
-.role-table .btn-assign {
+.role-table .btn-assign, .tag-table .btn-assign {
     background-color: #007bff;
     color: #fff;
 }
 
-.role-table .btn-assign:hover {
+.role-table .btn-assign:hover, .tag-table .btn-assign:hover {
     background-color: #0056b3;
 }
 
-.role-table .btn-remove {
+.role-table .btn-remove, .tag-table .btn-remove {
     background-color: #dc3545;
     color: #fff;
 }
 
-.role-table .btn-remove:hover {
+.role-table .btn-remove:hover, .tag-table .btn-remove:hover {
     background-color: #c82333;
 }
 

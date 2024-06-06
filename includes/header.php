@@ -52,6 +52,7 @@ if (isset($_SESSION['user_id'])) {
                         <?php if($isAdmin): ?>
                             <a href="user_management.php">User Management</a>
                             <a href="role_management.php">Role Management</a>
+                            <a href="tag_management.php">Tag Management</a>
                         <?php endif; ?>
                         <a href="logout.php">Logout</a>
                     <?php else: ?>

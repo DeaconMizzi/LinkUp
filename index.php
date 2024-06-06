@@ -3,19 +3,6 @@ include 'includes/header.php';
 include 'includes/db.php';
 
 $user_id = $_SESSION['user_id'] ?? null;
-$role = $_SESSION['role'] ?? '';
-
-// Fetch user's role
-$sql_role = "SELECT userroles.role_name 
-             FROM userroles 
-             JOIN userroleassignments ON userroles.role_id = userroleassignments.role_id 
-             WHERE userroleassignments.user_id = ?";
-$stmt_role = $conn->prepare($sql_role);
-$stmt_role->bind_param('i', $user_id);
-$stmt_role->execute();
-$result_role = $stmt_role->get_result();
-$role = ($result_role->num_rows > 0) ? $result_role->fetch_assoc()['role_name'] : '';
-
 ?>
 
 <div class="outer-container">
@@ -96,19 +83,14 @@ $role = ($result_role->num_rows > 0) ? $result_role->fetch_assoc()['role_name'] 
                 echo '<div class="post-actions">';
                 echo '<form action="actions/add_star.php" method="post" class="star-form">';
                 echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
+                echo '<input type="hidden" name="redirect_to" value="' . $_SERVER['REQUEST_URI'] . '">';
                 echo '<button type="submit" class="btn-star">';
                 echo '<img src="/linkup/assets/images/' . ($is_starred ? 'starred.png' : 'star.png') . '" alt="Star">';
                 echo '</button>';
                 echo '<span class="star-count">' . $star_count . '</span>';
                 echo '</form>';
                 echo '<a href="post.php?id=' . $row["post_id"] . '"><button class="btn-comment"><img src="/linkup/assets/images/comment.png" alt="Comment"></button></a>';
-                echo '<button class="btn-share" onclick="sharePost(\'https://yourdomain.com/post/' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
-                if ($role === 'Admin' || $role === 'Mod') {
-                    echo '<form action="actions/delete_post.php" method="post" class="delete-post-form">';
-                    echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-                    echo '<button type="submit" class="btn-delete-post">Delete Post</button>';
-                    echo '</form>';
-                }
+                echo '<button class="btn-share" onclick="sharePost(\'http://localhost/linkup/post.php?id=' . $row["post_id"] . '\')"><img src="/linkup/assets/images/share.png" alt="Share"></button>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
